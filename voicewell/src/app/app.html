@@ -1,0 +1,1053 @@
+<!-- AZBlueVoice - Smart Health Navigator -->
+<div class="app-container">
+  <!-- Official BCBS Header -->
+  <header class="app-header">
+    <nav class="bcbs-nav">
+      <div class="bcbs-logo-nav">
+        <a href="#" class="bcbs-official-logo">
+          <img
+            src="assets/svg/bcbs-logo.svg"
+            alt="BlueCross BlueShield"
+            class="bcbs-logo-svg"
+          />
+        </a>
+      </div>
+      <ul class="bcbs-nav-links">
+        <li><a href="#members">Members</a></li>
+        <li><a href="#plans">Explore Plans</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#insights">News & Insights</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-badge">Let's Get Started</div>
+      <h1 class="hero-title">AZBlueVoice</h1>
+      <br />
+      <p class="hero-subtitle">
+        What can we help you with today? Your Smart Health Navigator powered by
+        voice commands
+      </p>
+    </div>
+  </section>
+
+  <main class="app-main" id="dashboard">
+    <!-- Voice Control Section -->
+    <section class="voice-section">
+      <app-voice-control></app-voice-control>
+    </section>
+
+    <!-- Health Dashboard Section -->
+    <section class="dashboard-section">
+      <div class="section-header">
+        <h2 class="section-title">Your Health Dashboard</h2>
+        <p class="section-subtitle">
+          Comprehensive view of your health data and insights
+        </p>
+      </div>
+      <app-health-dashboard></app-health-dashboard>
+    </section>
+
+    <!-- Additional Health Cards Section -->
+    <section class="additional-cards-section">
+      <div class="section-header">
+        <h2 class="section-title">Comprehensive Health Management</h2>
+        <p class="section-subtitle">
+          Complete healthcare solutions at your fingertips
+        </p>
+      </div>
+      <div class="cards-container">
+        <!-- Health Goals Card -->
+        <div class="health-card goals-card">
+          <h3>🎯 Health Goals</h3>
+          <div class="goals-content">
+            <div class="goal-item completed">
+              <div class="goal-icon">✅</div>
+              <div class="goal-info">
+                <span class="goal-title">Annual Physical Exam</span>
+                <span class="goal-status">Completed</span>
+              </div>
+            </div>
+            <div class="goal-item in-progress">
+              <div class="goal-icon">🔄</div>
+              <div class="goal-info">
+                <span class="goal-title">Lose 10 lbs</span>
+                <span class="goal-status">6 lbs to go</span>
+              </div>
+            </div>
+            <div class="goal-item pending">
+              <div class="goal-icon">⏰</div>
+              <div class="goal-info">
+                <span class="goal-title">Dental Cleaning</span>
+                <span class="goal-status">Due in 2 months</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wellness Programs Card -->
+        <div class="health-card wellness-card">
+          <h3>🌟 Wellness Programs</h3>
+          <div class="wellness-content">
+            <div class="program-item">
+              <div class="program-badge">Active</div>
+              <div class="program-info">
+                <h4>Diabetes Prevention Program</h4>
+                <p>16-week lifestyle change program</p>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 65%"></div>
+                </div>
+                <span class="progress-text">Week 10 of 16</span>
+              </div>
+            </div>
+            <div class="program-item">
+              <div class="program-badge available">Available</div>
+              <div class="program-info">
+                <h4>Stress Management Workshop</h4>
+                <p>Learn mindfulness and relaxation techniques</p>
+                <button class="enroll-btn">Enroll Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Medication Tracker Card -->
+        <div class="health-card medication-card">
+          <h3>💊 Medication Tracker</h3>
+          <div class="medication-content">
+            <div class="med-item taken">
+              <div class="med-time">8:00 AM</div>
+              <div class="med-info">
+                <span class="med-name">Lisinopril 10mg</span>
+                <span class="med-status">✅ Taken</span>
+              </div>
+            </div>
+            <div class="med-item upcoming">
+              <div class="med-time">2:00 PM</div>
+              <div class="med-info">
+                <span class="med-name">Metformin 500mg</span>
+                <span class="med-status">⏰ Upcoming</span>
+              </div>
+            </div>
+            <div class="med-item pending">
+              <div class="med-time">8:00 PM</div>
+              <div class="med-info">
+                <span class="med-name">Vitamin D3</span>
+                <span class="med-status">🔔 Reminder Set</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Provider Network Card -->
+        <div class="health-card provider-card">
+          <h3>🏥 Your Care Team</h3>
+          <div class="provider-content">
+            <div class="provider-item">
+              <div class="provider-avatar">👨‍⚕️</div>
+              <div class="provider-info">
+                <h4>Dr. Sarah Johnson</h4>
+                <p>Primary Care Physician</p>
+                <div class="provider-contact">
+                  <span>📞 (555) 123-4567</span>
+                  <button class="contact-btn">Message</button>
+                </div>
+              </div>
+            </div>
+            <div class="provider-item">
+              <div class="provider-avatar">👨‍💼</div>
+              <div class="provider-info">
+                <h4>Dr. Michael Chen</h4>
+                <p>Cardiologist</p>
+                <div class="provider-contact">
+                  <span>📞 (555) 987-6543</span>
+                  <button class="contact-btn">Schedule</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Insights Card -->
+        <div class="health-card insights-card">
+          <h3>📈 Health Insights</h3>
+          <div class="insights-content">
+            <div class="insight-item positive">
+              <div class="insight-icon">📊</div>
+              <div class="insight-text">
+                <h4>Blood Pressure Trending Down</h4>
+                <p>
+                  Your BP has improved 12% over the last 3 months. Keep up the
+                  great work!
+                </p>
+              </div>
+            </div>
+            <div class="insight-item warning">
+              <div class="insight-icon">⚠️</div>
+              <div class="insight-text">
+                <h4>Exercise Goal Behind</h4>
+                <p>
+                  You're 30 minutes short of your weekly exercise goal. Try a
+                  15-min walk today!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Benefits Summary Card -->
+        <div class="health-card benefits-card">
+          <h3>💰 Benefits Summary</h3>
+          <div class="benefits-content">
+            <div class="benefit-item">
+              <div class="benefit-label">Deductible</div>
+              <div class="benefit-value">$1,500 / $3,000</div>
+              <div class="benefit-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 50%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-label">Out-of-Pocket Max</div>
+              <div class="benefit-value">$750 / $6,000</div>
+              <div class="benefit-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 12.5%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-label">Remaining Benefits</div>
+              <div class="benefit-value">$4,250</div>
+              <div class="benefit-status">Available</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+    <span class="back-to-top-icon">↑</span>
+    <span class="back-to-top-text">Top</span>
+  </button>
+
+  <!-- Professional BCBS Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <div class="footer-shield">
+          <span class="footer-cross">+</span>
+        </div>
+        <span class="footer-brand">BlueCross BlueShield</span>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Support</a>
+        <a href="#">Provider Network</a>
+        <a href="#">Member Resources</a>
+      </div>
+      <p class="footer-copyright">
+        &copy; 2025 Blue Cross Blue Shield Association. All rights reserved.
+        AZBlueVoice is a trademark of BCBS Innovation Labs.
+      </p>
+    </div>
+  </footer>
+</div>
+
+<style>
+  /* Official BCBS Brand Colors and Theme */
+  :root {
+    --bcbs-primary-blue: #0073e6;
+    --bcbs-secondary-blue: #0066cc;
+    --bcbs-dark-blue: #004080;
+    --bcbs-light-blue: #e6f3ff;
+    --bcbs-cross-blue: #00a0e6;
+    --bcbs-orange: #ff6b35;
+    --bcbs-green: #28a745;
+    --bcbs-gray: #6c757d;
+    --bcbs-light-gray: #f8f9fa;
+    --bcbs-white: #ffffff;
+    --bcbs-text-dark: #212529;
+    --bcbs-border: #dee2e6;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bcbs-light-gray);
+  }
+
+  .app-container {
+    min-height: 100vh;
+    background: linear-gradient(
+      135deg,
+      var(--bcbs-white) 0%,
+      var(--bcbs-light-blue) 100%
+    );
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* Official BCBS Header */
+  .app-header {
+    background: var(--bcbs-white);
+    border-bottom: 1px solid var(--bcbs-border);
+    padding: 0;
+    margin-bottom: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .bcbs-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .bcbs-logo-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .bcbs-official-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .bcbs-logo-svg {
+    height: 45px;
+    width: auto;
+    max-width: 200px;
+    transition: transform 0.3s ease;
+  }
+
+  .bcbs-logo-svg:hover {
+    transform: scale(1.05);
+  }
+
+  .bcbs-shield {
+    width: 40px;
+    height: 40px;
+    background: var(--bcbs-primary-blue);
+    position: relative;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bcbs-cross {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .bcbs-brand-text {
+    color: var(--bcbs-primary-blue);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .bcbs-nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bcbs-nav-links a {
+    color: var(--bcbs-text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+  }
+
+  .bcbs-nav-links a:hover {
+    color: var(--bcbs-primary-blue);
+  }
+
+  /* Hero Section */
+  .hero-section {
+    background: linear-gradient(
+      135deg,
+      var(--bcbs-primary-blue) 0%,
+      var(--bcbs-secondary-blue) 100%
+    );
+    color: white;
+    text-align: center;
+    padding: 25px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 auto 10px auto;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    background: #08508a;
+    padding: 10px 20px;
+    border-radius: 15px;
+    display: block;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    width: fit-content;
+    box-shadow: 0 4px 15px rgba(0, 114, 206, 0.4);
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0 0 15px 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .hero-cta {
+    background: var(--bcbs-orange);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(255, 107, 53, 0.3);
+  }
+
+  .hero-cta:hover {
+    background: #e55a2b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+  }
+
+  .app-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+  }
+
+  .voice-section {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .dashboard-section {
+    background: var(--bcbs-white);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--bcbs-border);
+    margin-bottom: 15px;
+  }
+
+  /* Cards Section */
+  .additional-cards-section {
+    margin-top: 15px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    color: var(--bcbs-text-dark);
+    font-weight: 600;
+    margin: 0 0 8px 0;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+    color: var(--bcbs-gray);
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+  }
+
+  .health-card {
+    background: var(--bcbs-white);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--bcbs-border);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .health-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--bcbs-primary-blue),
+      var(--bcbs-cross-blue)
+    );
+  }
+
+  .health-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 115, 230, 0.15);
+  }
+
+  .health-card h3 {
+    margin: 0 0 12px 0;
+    color: var(--bcbs-text-dark);
+    font-size: 1.2em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Card-specific styling */
+  .goals-card::before {
+    background: linear-gradient(90deg, var(--bcbs-green), #20c997);
+  }
+  .wellness-card::before {
+    background: linear-gradient(90deg, var(--bcbs-orange), #fd7e14);
+  }
+  .medication-card::before {
+    background: linear-gradient(90deg, var(--bcbs-cross-blue), #17a2b8);
+  }
+  .provider-card::before {
+    background: linear-gradient(90deg, #6f42c1, #8e44ad);
+  }
+  .insights-card::before {
+    background: linear-gradient(90deg, #e83e8c, #e91e63);
+  }
+  .benefits-card::before {
+    background: linear-gradient(
+      90deg,
+      var(--bcbs-dark-blue),
+      var(--bcbs-primary-blue)
+    );
+  }
+
+  /* Goal Items */
+  .goal-item,
+  .med-item,
+  .provider-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f3f4;
+  }
+
+  .goal-item:last-child,
+  .med-item:last-child,
+  .provider-item:last-child {
+    border-bottom: none;
+  }
+
+  .goal-icon,
+  .med-time {
+    font-size: 16px;
+    width: 30px;
+    text-align: center;
+  }
+
+  .goal-info,
+  .med-info {
+    flex: 1;
+  }
+
+  .goal-title,
+  .med-name {
+    font-weight: 600;
+    color: var(--bcbs-text-dark);
+    margin-bottom: 4px;
+  }
+
+  .goal-status,
+  .med-status {
+    color: var(--bcbs-gray);
+    font-size: 0.9em;
+  }
+
+  /* Program Items */
+  .program-item {
+    background: #f8f9ff;
+    border: 1px solid #e6e9ff;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .program-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.7em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    background: var(--bcbs-green);
+    color: white;
+  }
+
+  .program-badge.available {
+    background: var(--bcbs-primary-blue);
+  }
+
+  .enroll-btn,
+  .contact-btn {
+    background: var(--bcbs-primary-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+  }
+
+  .enroll-btn:hover,
+  .contact-btn:hover {
+    background: var(--bcbs-secondary-blue);
+  }
+
+  /* Progress Bars */
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--bcbs-primary-blue),
+      var(--bcbs-cross-blue)
+    );
+    transition: width 0.3s ease;
+  }
+
+  /* Provider Avatars */
+  .provider-avatar {
+    font-size: 32px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--bcbs-light-blue), #cce7ff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bcbs-border);
+  }
+
+  /* Insights */
+  .insight-item {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--bcbs-primary-blue);
+  }
+
+  .insight-item.warning {
+    border-left-color: var(--bcbs-orange);
+    background: #fff8f0;
+  }
+
+  .insight-icon {
+    font-size: 18px;
+    margin-top: 1px;
+  }
+
+  /* Benefits */
+  .benefit-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f3f4;
+  }
+
+  .benefit-label {
+    font-weight: 600;
+    color: var(--bcbs-text-dark);
+    margin-bottom: 4px;
+    font-size: 0.85em;
+  }
+
+  .benefit-value {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--bcbs-primary-blue);
+    margin-bottom: 6px;
+  }
+
+  /* Footer */
+  .app-footer {
+    background: var(--bcbs-text-dark);
+    color: white;
+    text-align: center;
+    padding: 20px 15px;
+    margin-top: 25px;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+
+  .footer-shield {
+    width: 32px;
+    height: 32px;
+    background: var(--bcbs-primary-blue);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-cross {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .footer-brand {
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    margin: 10px 0;
+  }
+
+  .footer-links a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: white;
+  }
+
+  .footer-copyright {
+    color: #999;
+    font-size: 0.9em;
+    margin: 0;
+  }
+
+  /* Highlight Animation */
+  .highlighted {
+    animation: bcbs-highlight 3s ease-in-out;
+    border: 2px solid var(--bcbs-primary-blue) !important;
+    box-shadow: 0 0 30px rgba(0, 115, 230, 0.3) !important;
+  }
+
+  @keyframes bcbs-highlight {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    50% {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px rgba(0, 115, 230, 0.3);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .bcbs-nav {
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px 20px;
+    }
+
+    .bcbs-nav-links {
+      gap: 20px;
+      font-size: 14px;
+    }
+
+    .bcbs-logo-svg {
+      height: 35px;
+      max-width: 150px;
+    }
+
+    .bcbs-brand-text {
+      font-size: 14px;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+    }
+
+    .cards-container {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .health-card {
+      padding: 12px;
+    }
+
+    .app-main {
+      padding: 12px 10px;
+    }
+
+    .footer-links {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .back-to-top {
+      width: 50px;
+      height: 50px;
+      bottom: 20px;
+      right: 20px;
+    }
+
+    .back-to-top-text {
+      font-size: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 1.6rem;
+      padding: 8px 15px;
+    }
+
+    .bcbs-nav-links {
+      display: none;
+    }
+
+    .bcbs-logo-svg {
+      height: 30px;
+      max-width: 120px;
+    }
+
+    .bcbs-brand-text {
+      font-size: 12px;
+    }
+
+    .provider-contact {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .health-card {
+      padding: 10px;
+    }
+
+    .back-to-top {
+      width: 45px;
+      height: 45px;
+      bottom: 15px;
+      right: 15px;
+    }
+  }
+
+  /* Back to Top Button */
+  .back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(
+      135deg,
+      var(--bcbs-primary-blue),
+      var(--bcbs-secondary-blue)
+    );
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 115, 230, 0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover {
+    background: linear-gradient(
+      135deg,
+      var(--bcbs-secondary-blue),
+      var(--bcbs-dark-blue)
+    );
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 115, 230, 0.4);
+  }
+
+  .back-to-top-icon {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .back-to-top-text {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+</style>
+
+<script>
+  // Back to Top Button Functionality
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  // Show/Hide Back to Top Button
+  window.addEventListener("scroll", function () {
+    const backToTopButton = document.getElementById("backToTop");
+    if (window.pageYOffset > 300) {
+      backToTopButton.classList.add("visible");
+    } else {
+      backToTopButton.classList.remove("visible");
+    }
+  });
+
+  // Voice Command for Back to Top
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add voice command support for "go to top" or "back to top"
+    if (window.speechRecognition) {
+      const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition)();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onresult = function (event) {
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          if (event.results[i].isFinal) {
+            const transcript = event.results[i][0].transcript
+              .toLowerCase()
+              .trim();
+
+            if (
+              transcript.includes("go to top") ||
+              transcript.includes("back to top") ||
+              transcript.includes("scroll to top") ||
+              transcript.includes("go back to top")
+            ) {
+              scrollToTop();
+              break;
+            }
+          }
+        }
+      };
+    }
+  });
+</script>
