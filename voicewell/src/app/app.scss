@@ -1,7 +1,9 @@
 .app-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
 .app-header {
@@ -23,20 +25,56 @@
   margin: 10px 0 0 0;
 }
 
+.app-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.voice-section {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  backdrop-filter: none;
+  border: none;
+  animation: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: auto;
+  overflow: visible;
+}
+
+@keyframes blueBorderBlink {
+  0% {
+    border-color: #007acc;
+    box-shadow: 0 0 15px rgba(0, 122, 204, 0.5);
+  }
+  50% {
+    border-color: #0099ff;
+    box-shadow: 0 0 25px rgba(0, 153, 255, 0.8);
+  }
+  100% {
+    border-color: #007acc;
+    box-shadow: 0 0 15px rgba(0, 122, 204, 0.5);
+  }
+}
+
 .main-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.voice-section {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 25px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .dashboard-section {
@@ -55,6 +93,12 @@
 }
 
 @media (max-width: 768px) {
+  .app-main {
+    gap: 20px;
+    padding: 10px;
+    align-items: center;
+  }
+  
   .main-content {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -65,7 +109,19 @@
     font-size: 2.5em;
   }
   
-  .voice-section, .dashboard-section {
+  .voice-section {
+    padding: 0;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .app-container {
+    padding: 0;
+  }
+  
+  .dashboard-section {
     padding: 20px;
   }
 }

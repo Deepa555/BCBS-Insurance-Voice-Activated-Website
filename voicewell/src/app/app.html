@@ -1,50 +1,119 @@
 <!-- AZBlueVoice - Smart Health Navigator -->
-<div class="app-container">
+<div
+  class="app-container"
+  role="application"
+  aria-label="AZBlueVoice Smart Health Navigator"
+>
   <!-- Official BCBS Header -->
-  <header class="app-header">
-    <nav class="bcbs-nav">
+  <header class="app-header" role="banner">
+    <nav class="bcbs-nav" role="navigation" aria-label="Main navigation">
       <div class="bcbs-logo-nav">
-        <a href="#" class="bcbs-official-logo">
+        <a
+          href="#"
+          class="bcbs-official-logo"
+          aria-label="BlueCross BlueShield home"
+        >
           <img
             src="assets/svg/bcbs-logo.svg"
-            alt="BlueCross BlueShield"
+            alt="BlueCross BlueShield logo"
             class="bcbs-logo-svg"
+            role="img"
           />
         </a>
       </div>
-      <ul class="bcbs-nav-links">
-        <li><a href="#members">Members</a></li>
-        <li><a href="#plans">Explore Plans</a></li>
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#insights">News & Insights</a></li>
+      <ul class="bcbs-nav-links" role="menubar">
+        <li role="none">
+          <a href="#members" role="menuitem" aria-label="Members section"
+            >Members</a
+          >
+        </li>
+        <li role="none">
+          <a href="#plans" role="menuitem" aria-label="Explore health plans"
+            >Explore Plans</a
+          >
+        </li>
+        <li role="none">
+          <a
+            href="#about"
+            role="menuitem"
+            aria-label="About BlueCross BlueShield"
+            >About Us</a
+          >
+        </li>
+        <li role="none">
+          <a
+            href="#insights"
+            role="menuitem"
+            aria-label="News and health insights"
+            >News & Insights</a
+          >
+        </li>
       </ul>
+      <div class="profile-section" role="region" aria-label="User profile">
+        <div class="profile-info">
+          <div class="welcome-container">
+            <span class="welcome-greeting" aria-label="Welcome greeting">Welcome</span>
+            <span class="user-name" aria-label="User name Deepa Chandar">Deepa Chandar</span>
+          </div>
+          <div
+            class="profile-avatar"
+            aria-label="Profile avatar for Deepa Chandar"
+            role="button"
+            tabindex="0"
+          >
+            <span class="profile-initials" aria-hidden="true">DC</span>
+          </div>
+        </div>
+      </div>
     </nav>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero-section">
+  <section class="hero-section" role="banner" aria-labelledby="hero-title">
     <div class="hero-content">
-      <div class="hero-badge">Let's Get Started</div>
-      <h1 class="hero-title">AZBlueVoice</h1>
+      <div class="hero-badge" aria-label="Getting started badge">
+        Let's Get Started
+      </div>
+      <h1 class="hero-title" id="hero-title">AZBlueVoice</h1>
       <br />
-      <p class="hero-subtitle">
+      <p class="hero-subtitle" role="text" aria-describedby="hero-title">
         What can we help you with today? Your Smart Health Navigator powered by
         voice commands
       </p>
     </div>
   </section>
 
-  <main class="app-main" id="dashboard">
+  <main
+    class="app-main"
+    id="dashboard"
+    role="main"
+    aria-label="Health dashboard main content"
+  >
     <!-- Voice Control Section -->
-    <section class="voice-section">
+    <section
+      class="voice-section"
+      role="region"
+      aria-labelledby="voice-section-title"
+    >
+      <!-- <h2 id="voice-section-title" class="sr-only">Voice Control Interface</h2> -->
       <app-voice-control></app-voice-control>
     </section>
 
     <!-- Health Dashboard Section -->
-    <section class="dashboard-section">
+    <section
+      class="dashboard-section"
+      role="region"
+      aria-labelledby="dashboard-title"
+    >
       <div class="section-header">
-        <h2 class="section-title">Your Health Dashboard</h2>
-        <p class="section-subtitle">
+        <h2 class="section-title" id="dashboard-title">
+          Your Health Dashboard
+        </h2>
+        <p
+          class="section-subtitle"
+          role="text"
+          aria-describedby="dashboard-title"
+        >
           Comprehensive view of your health data and insights
         </p>
       </div>
@@ -52,188 +121,442 @@
     </section>
 
     <!-- Additional Health Cards Section -->
-    <section class="additional-cards-section">
+    <section
+      class="additional-cards-section"
+      role="region"
+      aria-labelledby="additional-cards-title"
+    >
       <div class="section-header">
-        <h2 class="section-title">Comprehensive Health Management</h2>
-        <p class="section-subtitle">
+        <h2 class="section-title" id="additional-cards-title">
+          Comprehensive Health Management
+        </h2>
+        <p
+          class="section-subtitle"
+          role="text"
+          aria-describedby="additional-cards-title"
+        >
           Complete healthcare solutions at your fingertips
         </p>
       </div>
-      <div class="cards-container">
+      <div
+        class="cards-container"
+        role="group"
+        aria-label="Health management cards"
+      >
         <!-- Health Goals Card -->
-        <div class="health-card goals-card">
-          <h3>🎯 Health Goals</h3>
-          <div class="goals-content">
-            <div class="goal-item completed">
-              <div class="goal-icon">✅</div>
+        <article
+          class="health-card goals-card"
+          role="article"
+          aria-labelledby="goals-card-title"
+        >
+          <h3 id="goals-card-title">
+            <span role="img" aria-label="Target icon">🎯</span> Health Goals
+          </h3>
+          <div
+            class="goals-content"
+            role="list"
+            aria-label="List of health goals"
+          >
+            <div
+              class="goal-item completed"
+              role="listitem"
+              aria-label="Completed goal"
+            >
+              <div
+                class="goal-icon"
+                role="img"
+                aria-label="Completed checkmark"
+              >
+                <span aria-hidden="true">✅</span>
+              </div>
               <div class="goal-info">
                 <span class="goal-title">Annual Physical Exam</span>
-                <span class="goal-status">Completed</span>
+                <span class="goal-status" aria-label="Status: Completed"
+                  >Completed</span
+                >
               </div>
             </div>
-            <div class="goal-item in-progress">
-              <div class="goal-icon">🔄</div>
+            <div
+              class="goal-item in-progress"
+              role="listitem"
+              aria-label="Goal in progress"
+            >
+              <div class="goal-icon" role="img" aria-label="In progress icon">
+                <span aria-hidden="true">🔄</span>
+              </div>
               <div class="goal-info">
                 <span class="goal-title">Lose 10 lbs</span>
-                <span class="goal-status">6 lbs to go</span>
+                <span
+                  class="goal-status"
+                  aria-label="Status: 6 pounds remaining"
+                  >6 lbs to go</span
+                >
               </div>
             </div>
-            <div class="goal-item pending">
-              <div class="goal-icon">⏰</div>
+            <div
+              class="goal-item pending"
+              role="listitem"
+              aria-label="Pending goal"
+            >
+              <div class="goal-icon" role="img" aria-label="Pending clock icon">
+                <span aria-hidden="true">⏰</span>
+              </div>
               <div class="goal-info">
                 <span class="goal-title">Dental Cleaning</span>
-                <span class="goal-status">Due in 2 months</span>
+                <span class="goal-status" aria-label="Status: Due in 2 months"
+                  >Due in 2 months</span
+                >
               </div>
             </div>
           </div>
-        </div>
+        </article>
 
         <!-- Wellness Programs Card -->
-        <div class="health-card wellness-card">
-          <h3>🌟 Wellness Programs</h3>
-          <div class="wellness-content">
-            <div class="program-item">
-              <div class="program-badge">Active</div>
+        <article
+          class="health-card wellness-card"
+          role="article"
+          aria-labelledby="wellness-card-title"
+        >
+          <h3 id="wellness-card-title">
+            <span role="img" aria-label="Star icon">🌟</span> Wellness Programs
+          </h3>
+          <div
+            class="wellness-content"
+            role="list"
+            aria-label="Available wellness programs"
+          >
+            <div class="program-item" role="listitem">
+              <div class="program-badge" aria-label="Program status: Active">
+                Active
+              </div>
               <div class="program-info">
                 <h4>Diabetes Prevention Program</h4>
-                <p>16-week lifestyle change program</p>
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 65%"></div>
+                <p role="text">16-week lifestyle change program</p>
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  aria-valuenow="60"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-label="Program progress: 60 percent complete"
+                >
+                  <div
+                    class="progress-fill"
+                    style="width: 65%"
+                    aria-hidden="true"
+                  ></div>
                 </div>
-                <span class="progress-text">Week 10 of 16</span>
+                <span
+                  class="progress-text"
+                  aria-label="Current progress: Week 10 of 16"
+                  >Week 10 of 16</span
+                >
               </div>
             </div>
-            <div class="program-item">
-              <div class="program-badge available">Available</div>
+            <div class="program-item" role="listitem">
+              <div
+                class="program-badge available"
+                aria-label="Program status: Available"
+              >
+                Available
+              </div>
               <div class="program-info">
                 <h4>Stress Management Workshop</h4>
-                <p>Learn mindfulness and relaxation techniques</p>
-                <button class="enroll-btn">Enroll Now</button>
+                <p role="text">Learn mindfulness and relaxation techniques</p>
+                <button
+                  class="enroll-btn"
+                  type="button"
+                  aria-label="Enroll in Stress Management Workshop"
+                >
+                  Enroll Now
+                </button>
               </div>
             </div>
           </div>
-        </div>
+        </article>
 
         <!-- Medication Tracker Card -->
-        <div class="health-card medication-card">
-          <h3>💊 Medication Tracker</h3>
-          <div class="medication-content">
-            <div class="med-item taken">
-              <div class="med-time">8:00 AM</div>
+        <article
+          class="health-card medication-card"
+          role="article"
+          aria-labelledby="medication-card-title"
+        >
+          <h3 id="medication-card-title">
+            <span role="img" aria-label="Pill icon">💊</span> Medication Tracker
+          </h3>
+          <div
+            class="medication-content"
+            role="list"
+            aria-label="Today's medication schedule"
+          >
+            <div
+              class="med-item taken"
+              role="listitem"
+              aria-label="Medication taken"
+            >
+              <div class="med-time" aria-label="Time: 8:00 AM">8:00 AM</div>
               <div class="med-info">
                 <span class="med-name">Lisinopril 10mg</span>
-                <span class="med-status">✅ Taken</span>
+                <span class="med-status" aria-label="Status: Taken"
+                  ><span role="img" aria-label="Checkmark">✅</span> Taken</span
+                >
               </div>
             </div>
-            <div class="med-item upcoming">
-              <div class="med-time">2:00 PM</div>
+            <div
+              class="med-item upcoming"
+              role="listitem"
+              aria-label="Upcoming medication"
+            >
+              <div class="med-time" aria-label="Time: 2:00 PM">2:00 PM</div>
               <div class="med-info">
                 <span class="med-name">Metformin 500mg</span>
-                <span class="med-status">⏰ Upcoming</span>
+                <span class="med-status" aria-label="Status: Upcoming"
+                  ><span role="img" aria-label="Clock">⏰</span> Upcoming</span
+                >
               </div>
             </div>
-            <div class="med-item pending">
-              <div class="med-time">8:00 PM</div>
+            <div
+              class="med-item pending"
+              role="listitem"
+              aria-label="Medication with reminder set"
+            >
+              <div class="med-time" aria-label="Time: 8:00 PM">8:00 PM</div>
               <div class="med-info">
                 <span class="med-name">Vitamin D3</span>
-                <span class="med-status">🔔 Reminder Set</span>
+                <span class="med-status" aria-label="Status: Reminder set"
+                  ><span role="img" aria-label="Bell">🔔</span> Reminder
+                  Set</span
+                >
               </div>
             </div>
           </div>
-        </div>
+        </article>
 
         <!-- Provider Network Card -->
-        <div class="health-card provider-card">
-          <h3>🏥 Your Care Team</h3>
-          <div class="provider-content">
-            <div class="provider-item">
-              <div class="provider-avatar">👨‍⚕️</div>
+        <article
+          class="health-card provider-card"
+          role="article"
+          aria-labelledby="provider-card-title"
+        >
+          <h3 id="provider-card-title">
+            <span role="img" aria-label="Hospital icon">🏥</span> Your Care Team
+          </h3>
+          <div
+            class="provider-content"
+            role="list"
+            aria-label="Your healthcare providers"
+          >
+            <div class="provider-item" role="listitem">
+              <div
+                class="provider-avatar"
+                role="img"
+                aria-label="Doctor avatar"
+              >
+                <span aria-hidden="true">👨‍⚕️</span>
+              </div>
               <div class="provider-info">
                 <h4>Dr. Sarah Johnson</h4>
-                <p>Primary Care Physician</p>
+                <p role="text">Primary Care Physician</p>
                 <div class="provider-contact">
-                  <span>📞 (555) 123-4567</span>
-                  <button class="contact-btn">Message</button>
+                  <span aria-label="Phone number: (555) 123-4567"
+                    ><span role="img" aria-label="Phone">📞</span> (555)
+                    123-4567</span
+                  >
+                  <button
+                    class="contact-btn"
+                    type="button"
+                    aria-label="Send message to Dr. Sarah Johnson"
+                  >
+                    Message
+                  </button>
                 </div>
               </div>
             </div>
-            <div class="provider-item">
-              <div class="provider-avatar">👨‍💼</div>
+            <div class="provider-item" role="listitem">
+              <div
+                class="provider-avatar"
+                role="img"
+                aria-label="Doctor avatar"
+              >
+                <span aria-hidden="true">👨‍💼</span>
+              </div>
               <div class="provider-info">
                 <h4>Dr. Michael Chen</h4>
-                <p>Cardiologist</p>
+                <p role="text">Cardiologist</p>
                 <div class="provider-contact">
-                  <span>📞 (555) 987-6543</span>
-                  <button class="contact-btn">Schedule</button>
+                  <span aria-label="Phone number: (555) 987-6543"
+                    ><span role="img" aria-label="Phone">📞</span> (555)
+                    987-6543</span
+                  >
+                  <button
+                    class="contact-btn"
+                    type="button"
+                    aria-label="Schedule appointment with Dr. Michael Chen"
+                  >
+                    Schedule
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </article>
 
         <!-- Health Insights Card -->
-        <div class="health-card insights-card">
-          <h3>📈 Health Insights</h3>
-          <div class="insights-content">
-            <div class="insight-item positive">
-              <div class="insight-icon">📊</div>
+        <article
+          class="health-card insights-card"
+          role="article"
+          aria-labelledby="insights-card-title"
+        >
+          <h3 id="insights-card-title">
+            <span role="img" aria-label="Chart icon">📈</span> Health Insights
+          </h3>
+          <div
+            class="insights-content"
+            role="list"
+            aria-label="Health insights and recommendations"
+          >
+            <div
+              class="insight-item positive"
+              role="listitem"
+              aria-label="Positive health insight"
+            >
+              <div class="insight-icon" role="img" aria-label="Chart icon">
+                <span aria-hidden="true">📊</span>
+              </div>
               <div class="insight-text">
                 <h4>Blood Pressure Trending Down</h4>
-                <p>
+                <p role="text">
                   Your BP has improved 12% over the last 3 months. Keep up the
                   great work!
                 </p>
               </div>
             </div>
-            <div class="insight-item warning">
-              <div class="insight-icon">⚠️</div>
+            <div
+              class="insight-item warning"
+              role="listitem"
+              aria-label="Health warning insight"
+            >
+              <div class="insight-icon" role="img" aria-label="Warning icon">
+                <span aria-hidden="true">⚠️</span>
+              </div>
               <div class="insight-text">
                 <h4>Exercise Goal Behind</h4>
-                <p>
+                <p role="text">
                   You're 30 minutes short of your weekly exercise goal. Try a
                   15-min walk today!
                 </p>
               </div>
             </div>
           </div>
-        </div>
+        </article>
 
         <!-- Benefits Summary Card -->
-        <div class="health-card benefits-card">
-          <h3>💰 Benefits Summary</h3>
-          <div class="benefits-content">
-            <div class="benefit-item">
-              <div class="benefit-label">Deductible</div>
-              <div class="benefit-value">$1,500 / $3,000</div>
-              <div class="benefit-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 50%"></div>
+        <article
+          class="health-card benefits-card"
+          role="article"
+          aria-labelledby="benefits-card-title"
+        >
+          <h3 id="benefits-card-title">
+            <span role="img" aria-label="Money icon">💰</span> Benefits Summary
+          </h3>
+          <div
+            class="benefits-content"
+            role="group"
+            aria-label="Insurance benefits overview"
+          >
+            <div
+              class="benefit-item"
+              role="group"
+              aria-labelledby="deductible-label"
+            >
+              <div class="benefit-label" id="deductible-label">Deductible</div>
+              <div
+                class="benefit-value"
+                aria-label="Deductible: $1,500 used of $3,000 total"
+              >
+                $1,500 / $3,000
+              </div>
+              <div class="benefit-progress" aria-label="Deductible progress">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  aria-valuenow="50"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-label="50% of deductible used"
+                >
+                  <div
+                    class="progress-fill"
+                    style="width: 50%"
+                    aria-hidden="true"
+                  ></div>
                 </div>
               </div>
             </div>
-            <div class="benefit-item">
-              <div class="benefit-label">Out-of-Pocket Max</div>
-              <div class="benefit-value">$750 / $6,000</div>
-              <div class="benefit-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 12.5%"></div>
+            <div
+              class="benefit-item"
+              role="group"
+              aria-labelledby="out-of-pocket-label"
+            >
+              <div class="benefit-label" id="out-of-pocket-label">
+                Out-of-Pocket Max
+              </div>
+              <div
+                class="benefit-value"
+                aria-label="Out-of-pocket: $750 used of $6,000 maximum"
+              >
+                $750 / $6,000
+              </div>
+              <div class="benefit-progress" aria-label="Out-of-pocket progress">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  aria-valuenow="12"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-label="12% of out-of-pocket maximum used"
+                >
+                  <div
+                    class="progress-fill"
+                    style="width: 12.5%"
+                    aria-hidden="true"
+                  ></div>
                 </div>
               </div>
             </div>
-            <div class="benefit-item">
-              <div class="benefit-label">Remaining Benefits</div>
-              <div class="benefit-value">$4,250</div>
-              <div class="benefit-status">Available</div>
+            <div
+              class="benefit-item"
+              role="group"
+              aria-labelledby="remaining-benefits-label"
+            >
+              <div class="benefit-label" id="remaining-benefits-label">
+                Remaining Benefits
+              </div>
+              <div
+                class="benefit-value"
+                aria-label="Remaining benefits: $4,250"
+              >
+                $4,250
+              </div>
+              <div class="benefit-status" aria-label="Status: Available">
+                Available
+              </div>
             </div>
           </div>
-        </div>
+        </article>
       </div>
     </section>
   </main>
 
   <!-- Back to Top Button -->
-  <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
-    <span class="back-to-top-icon">↑</span>
+  <button
+    class="back-to-top"
+    id="backToTop"
+    onclick="scrollToTop()"
+    type="button"
+    aria-label="Scroll back to top of page"
+  >
+    <span class="back-to-top-icon" aria-hidden="true">↑</span>
     <span class="back-to-top-text">Top</span>
   </button>
 
@@ -315,12 +638,15 @@
     padding: 12px 20px;
     max-width: 1200px;
     margin: 0 auto;
+    gap: 20px;
+    flex-wrap: nowrap;
   }
 
   .bcbs-logo-nav {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-shrink: 0;
   }
 
   .bcbs-official-logo {
@@ -367,10 +693,12 @@
 
   .bcbs-nav-links {
     display: flex;
-    gap: 30px;
+    gap: 20px;
     list-style: none;
     margin: 0;
     padding: 0;
+    flex-shrink: 1;
+    min-width: 0;
   }
 
   .bcbs-nav-links a {
@@ -383,6 +711,226 @@
 
   .bcbs-nav-links a:hover {
     color: var(--bcbs-primary-blue);
+  }
+
+  /* Profile Section */
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.95) 0%, 
+      rgba(248, 250, 252, 0.95) 50%,
+      rgba(241, 245, 249, 0.95) 100%);
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: 2px solid rgba(0, 115, 230, 0.15);
+    flex-shrink: 0;
+    min-width: fit-content;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+      0 8px 32px rgba(0, 115, 230, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+      rgba(0, 115, 230, 0.02) 0%, 
+      transparent 50%,
+      rgba(102, 126, 234, 0.03) 100%);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .profile-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 12px 40px rgba(0, 115, 230, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 4px 8px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 115, 230, 0.25);
+  }
+
+  .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+    position: relative;
+  }
+
+  .welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .welcome-greeting {
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 13px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.2px;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    opacity: 1;
+    transition: all 0.3s ease;
+  }
+
+  .user-name {
+    color: #111827;
+    font-weight: 700;
+    font-size: 14px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.3px;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: all 0.3s ease;
+  }
+
+  .profile-section:hover .welcome-greeting {
+    color: #0f172a;
+    opacity: 1;
+  }
+
+  .profile-section:hover .user-name {
+    transform: translateX(2px);
+  }
+
+  .profile-avatar {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg,
+      var(--bcbs-primary-blue) 0%,
+      var(--bcbs-secondary-blue) 50%,
+      #405de6 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 
+      0 6px 20px rgba(0, 115, 230, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-avatar::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.4) 0%, 
+      transparent 50%,
+      rgba(0, 115, 230, 0.1) 100%);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .profile-avatar:hover {
+    transform: scale(1.08) translateY(-2px) rotate(2deg);
+    box-shadow: 
+      0 12px 30px rgba(0, 115, 230, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 1);
+  }
+
+  .profile-avatar:hover::before {
+    opacity: 1;
+  }
+
+  .profile-avatar:focus {
+    outline: none;
+    box-shadow: 
+      0 12px 30px rgba(0, 115, 230, 0.35),
+      0 0 0 3px rgba(255, 255, 255, 0.8),
+      0 0 0 6px rgba(0, 115, 230, 0.3);
+  }
+
+  .profile-avatar:active {
+    transform: scale(1.02) rotate(1deg);
+    transition: transform 0.15s ease;
+  }
+
+  .profile-initials {
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.4),
+      0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    z-index: 2;
+    position: relative;
+  }
+
+  .profile-avatar:hover .profile-initials {
+    transform: scale(1.1) rotate(-2deg);
+    text-shadow: 
+      0 3px 6px rgba(0, 0, 0, 0.5),
+      0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Profile Section Animations */
+  @keyframes profilePulse {
+    0% { box-shadow: 0 4px 15px rgba(0, 115, 230, 0.3); }
+    50% { box-shadow: 0 4px 20px rgba(0, 115, 230, 0.4); }
+    100% { box-shadow: 0 4px 15px rgba(0, 115, 230, 0.3); }
+  }
+
+  .profile-section:hover .profile-avatar {
+    animation: profilePulse 2s ease-in-out infinite;
+  }
+
+  /* Remove shimmer animation that may cause blur */
+
+  /* Profile Tooltip Effect */
+  .profile-section::after {
+    content: 'User Profile';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+
+  .profile-section:hover::after {
+    opacity: 1;
   }
 
   /* Hero Section */
@@ -476,12 +1024,19 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 15px 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .voice-section {
     margin-bottom: 15px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 200px;
   }
 
   .dashboard-section {
@@ -491,11 +1046,15 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid var(--bcbs-border);
     margin-bottom: 15px;
+    width: 100%;
+    max-width: 1200px;
   }
 
   /* Cards Section */
   .additional-cards-section {
     margin-top: 15px;
+    width: 100%;
+    max-width: 1200px;
   }
 
   .section-header {
@@ -861,6 +1420,23 @@
       font-size: 14px;
     }
 
+    .welcome-greeting {
+      font-size: 12px;
+    }
+
+    .user-name {
+      font-size: 13px;
+    }
+
+    .profile-avatar {
+      width: 38px;
+      height: 38px;
+    }
+
+    .profile-initials {
+      font-size: 13px;
+    }
+
     .hero-title {
       font-size: 2rem;
     }
@@ -884,6 +1460,7 @@
 
     .app-main {
       padding: 12px 10px;
+      align-items: center;
     }
 
     .footer-links {
@@ -919,6 +1496,23 @@
     }
 
     .bcbs-brand-text {
+      font-size: 12px;
+    }
+
+    .welcome-greeting {
+      font-size: 11px;
+    }
+
+    .user-name {
+      font-size: 12px;
+    }
+
+    .profile-avatar {
+      width: 35px;
+      height: 35px;
+    }
+
+    .profile-initials {
       font-size: 12px;
     }
 

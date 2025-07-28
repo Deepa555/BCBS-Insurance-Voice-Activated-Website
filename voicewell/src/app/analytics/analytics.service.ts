@@ -308,7 +308,8 @@ export class AnalyticsService {
       healthInsights: [
         {
           title: 'Blood Pressure Trend',
-          description: 'Your blood pressure has improved over the last 3 months',
+          description:
+            'Your blood pressure has improved over the last 3 months',
           icon: '📈',
           type: 'improvement',
           trend: 'improving',
@@ -316,7 +317,8 @@ export class AnalyticsService {
         },
         {
           title: 'Medication Adherence',
-          description: 'Consider setting up automatic refills for better adherence',
+          description:
+            'Consider setting up automatic refills for better adherence',
           icon: '💊',
           type: 'warning',
           trend: 'stable',
@@ -324,7 +326,7 @@ export class AnalyticsService {
         },
         {
           title: 'Exercise Progress',
-          description: 'You\'re meeting your weekly exercise goals consistently',
+          description: "You're meeting your weekly exercise goals consistently",
           icon: '🏃',
           type: 'improvement',
           trend: 'improving',

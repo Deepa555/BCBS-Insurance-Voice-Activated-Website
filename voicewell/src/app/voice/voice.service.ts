@@ -1,6 +1,9 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { PopupService } from '../services/popup.service';
+import { AnalyticsService } from '../analytics/analytics.service';
+import { AccessibilityService } from '../services/accessibility.service';
 
 export interface VoiceCommand {
   command: string;
@@ -35,7 +38,12 @@ export class VoiceService {
 
   public voiceState$ = this.voiceStateSubject.asObservable();
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private popupService: PopupService,
+    private analyticsService: AnalyticsService,
+    private accessibilityService: AccessibilityService
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
     // Initialize after constructor to ensure proper platform detection
@@ -93,33 +101,36 @@ export class VoiceService {
         '🔚 Recognition ended. shouldKeepListening:',
         this.shouldKeepListening
       );
-      
+
       // ALWAYS update state to show we're not listening when recognition ends
       // This ensures the animation stops regardless of any other conditions
       this.updateState({
         isListening: false,
         currentTranscript: null, // Clear transcript when listening ends
       });
-      
-      // Force another state update to ensure UI synchronization
-      setTimeout(() => {
-        this.updateState({
-          isListening: false,
-          currentTranscript: null,
-        });
-      }, 50);
 
-      // Auto-restart only if we should keep listening and there's no error
+      // Auto-restart if we should keep listening and there's no error
       if (this.shouldKeepListening && !this.voiceStateSubject.value.error) {
-        console.log('🔄 Recognition ended, restarting in 500ms...');
+        console.log('🔄 Recognition ended, restarting in 1000ms...');
         setTimeout(() => {
           if (this.shouldKeepListening) {
-            console.log('🔄 Auto-restarting recognition');
-            this.startListening();
+            console.log('🔄 Auto-restarting recognition for continuous listening');
+            try {
+              this.recognition.start();
+              this.updateState({ isListening: true, error: null });
+            } catch (error) {
+              console.error('Error restarting recognition:', error);
+              // If we can't restart, try again after a longer delay
+              setTimeout(() => {
+                if (this.shouldKeepListening) {
+                  this.startListening();
+                }
+              }, 2000);
+            }
           } else {
             console.log('🛑 shouldKeepListening is false, not restarting');
           }
-        }, 500); // Small delay before restarting
+        }, 1000); // Longer delay for more stable restart
       } else {
         console.log(
           '🛑 Not restarting - shouldKeepListening:',
@@ -127,7 +138,7 @@ export class VoiceService {
           'error:',
           this.voiceStateSubject.value.error
         );
-        
+
         // Ensure UI shows we're not listening
         this.updateState({
           isListening: false,
@@ -145,6 +156,7 @@ export class VoiceService {
     };
 
     this.recognition.onresult = (event: any) => {
+      console.log('🎤 Speech recognition result received:', event);
       let interimTranscript = '';
       let finalTranscript = '';
 
@@ -170,6 +182,10 @@ export class VoiceService {
 
       // Update current transcript with interim results for real-time display
       if (interimTranscript) {
+        console.log(
+          '🎤 Updating interim transcript:',
+          interimTranscript.trim()
+        );
         this.updateState({
           currentTranscript: interimTranscript.trim(),
         });
@@ -190,12 +206,8 @@ export class VoiceService {
         this.recognition.start();
         // Brief welcome message - only on first start
         if (!this.hasGivenWelcome) {
-          setTimeout(() => {
-            if (this.voiceStateSubject.value.isListening) {
-              this.speakResponse('Hello Welcome to AZ Blue Voice');
-              this.hasGivenWelcome = true;
-            }
-          }, 500);
+          this.speakWelcomeMessage();
+          this.hasGivenWelcome = true;
         }
       } catch (error) {
         this.updateState({
@@ -210,12 +222,14 @@ export class VoiceService {
       return;
     }
 
-    console.log('🛑 stopListening() called - setting shouldKeepListening to false');
-    
+    console.log(
+      '🛑 stopListening() called - setting shouldKeepListening to false'
+    );
+
     // IMMEDIATELY update state first before anything else
     this.shouldKeepListening = false; // Clear flag to stop auto-restart
     this.hasGivenWelcome = false; // Reset welcome flag for next session
-    
+
     // Force update state immediately to show we're not listening
     this.updateState({
       isListening: false,
@@ -236,19 +250,24 @@ export class VoiceService {
         });
       }
     }
-    
+
     console.log('🛑 stopListening() completed');
   }
 
   private updateState(updates: Partial<VoiceState>): void {
     const currentState = this.voiceStateSubject.value;
     const newState = { ...currentState, ...updates };
-    
+
     // Debug logging for state changes
     if (updates.isListening !== undefined) {
-      console.log('🔄 State Update - isListening:', currentState.isListening, '->', updates.isListening);
+      console.log(
+        '🔄 State Update - isListening:',
+        currentState.isListening,
+        '->',
+        updates.isListening
+      );
     }
-    
+
     this.voiceStateSubject.next(newState);
   }
 
@@ -291,6 +310,77 @@ export class VoiceService {
     }
   }
 
+  private speakWelcomeMessage(): void {
+    if (!this.isBrowser || !this.speechSynthesis) {
+      console.log('🗣️ Voice response:', 'Hello Welcome to AZ Blue Voice');
+      // Even without speech, add the 9-second delay
+      setTimeout(() => {
+        console.log('🎉 Welcome message delay completed - ready for commands');
+      }, 9000);
+      return;
+    }
+
+    try {
+      // Cancel any existing speech
+      this.speechSynthesis.cancel();
+
+      const welcomeMessage = 'Hello Welcome to AZ Blue Voice';
+      const utterance = new SpeechSynthesisUtterance(welcomeMessage);
+
+      // Configure voice settings
+      utterance.rate = 0.9; // Slightly slower for clarity
+      utterance.pitch = 1.0; // Normal pitch
+      utterance.volume = 0.8; // Slightly quieter
+
+      // Try to use a pleasant voice
+      const voices = this.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(
+        (voice) =>
+          voice.name.includes('Google') ||
+          voice.name.includes('Microsoft') ||
+          voice.name.includes('Samantha') ||
+          voice.lang.startsWith('en')
+      );
+
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      // Add event listener for when speech ends
+      utterance.onend = () => {
+        console.log('🎤 Welcome message finished speaking');
+        // Wait for 9 seconds after the welcome message finishes
+        setTimeout(() => {
+          console.log(
+            '🎉 Welcome message delay completed - ready for commands'
+          );
+          // Optional: You could add a brief sound or visual indicator here
+        }, 9000);
+      };
+
+      // Handle speech errors
+      utterance.onerror = (event) => {
+        console.error('Welcome message speech error:', event);
+        // Still add the delay even if speech fails
+        setTimeout(() => {
+          console.log(
+            '🎉 Welcome message delay completed - ready for commands'
+          );
+        }, 9000);
+      };
+
+      console.log('🗣️ Speaking welcome message:', welcomeMessage);
+      this.speechSynthesis.speak(utterance);
+    } catch (error) {
+      console.error('Welcome message synthesis error:', error);
+      console.log('🗣️ Voice response:', 'Hello Welcome to AZ Blue Voice');
+      // Add delay even if speech fails
+      setTimeout(() => {
+        console.log('🎉 Welcome message delay completed - ready for commands');
+      }, 9000);
+    }
+  }
+
   private processVoiceCommand(command: VoiceCommand): void {
     console.log('Processing voice command:', command);
 
@@ -306,31 +396,27 @@ export class VoiceService {
       return;
     }
 
-    // Process other commands and stop listening after successful command
+    // Process other commands but DON'T stop listening after successful command
     if (this.parseHealthCommand(command.command)) {
-      console.log('✅ Command processed successfully - stopping listening immediately');
-      
-      // IMMEDIATELY force multiple state updates to ensure UI synchronization
+      console.log(
+        '✅ Command processed successfully - continuing to listen for more commands'
+      );
+
+      // Update state to show current transcript is processed
       this.updateState({
-        isListening: false,
         currentTranscript: null,
       });
-      
-      // Force another state update after a brief delay to ensure detection
-      setTimeout(() => {
-        this.updateState({
-          isListening: false,
-          currentTranscript: null,
-        });
-      }, 10);
-      
-      console.log('🛑 Setting shouldKeepListening to false to prevent auto-restart');
-      this.shouldKeepListening = false;
-      
-      // Stop listening after state is updated
-      this.stopListening();
-      
-      console.log('🛑 Voice recognition should now be stopped');
+
+      console.log(
+        '🔄 Keeping shouldKeepListening true to allow more commands'
+      );
+      // DON'T set shouldKeepListening to false - let user give more commands
+      // this.shouldKeepListening = false; // REMOVED THIS LINE
+
+      // DON'T stop listening - let the user continue giving commands
+      // this.stopListening(); // REMOVED THIS LINE
+
+      console.log('🎤 Ready for next voice command');
       return; // Ensure we exit here
     } else {
       console.log('❌ Command not recognized:', command.command);
@@ -637,6 +723,13 @@ export class VoiceService {
       },
     });
 
+    // Show popup notification
+    this.popupService.showPopup(
+      '🏥 Health Dashboard',
+      'Your comprehensive health overview is now displayed. Scroll down to explore all your health cards.',
+      'success'
+    );
+
     // Speak the response
     this.speakResponse(response);
 
@@ -645,7 +738,11 @@ export class VoiceService {
       setTimeout(() => {
         const dashboardElement = document.querySelector('.dashboard-section');
         if (dashboardElement) {
-          dashboardElement.scrollIntoView({ behavior: 'smooth' });
+          dashboardElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
         }
       }, 500);
     }
@@ -671,7 +768,11 @@ export class VoiceService {
       setTimeout(() => {
         const riskElement = document.querySelector('.risk-assessment');
         if (riskElement) {
-          riskElement.scrollIntoView({ behavior: 'smooth' });
+          riskElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           // Add a highlight effect
           riskElement.classList.add('highlighted');
           setTimeout(() => {
@@ -683,8 +784,8 @@ export class VoiceService {
   }
 
   private triggerClaimsView(): void {
-    console.log('Triggering claims view');
-    const response = 'Opening your claims information';
+    console.log('=== VOICE COMMAND: TRIGGERING CLAIMS VIEW ===');
+    const response = 'Displaying your recent claims information';
 
     this.updateState({
       lastCommand: {
@@ -694,15 +795,51 @@ export class VoiceService {
       },
     });
 
+    // Announce to screen readers
+    this.accessibilityService.announceVoiceCommandResult(
+      'Show my claims',
+      'Opening claims popup with recent insurance claims'
+    );
+
+    // Get claims data and show claims popup
+    console.log('🔍 Getting health data for claims...');
+    this.analyticsService.getHealthData().subscribe((healthData) => {
+      console.log('📊 Health data received:', healthData);
+      if (healthData?.claims) {
+        console.log('✅ Claims data found:', healthData.claims);
+        console.log('🎯 Calling showClaimsPopup...');
+        this.popupService.showClaimsPopup(healthData.claims);
+
+        // Announce popup content for screen readers
+        const claimsCount = healthData.claims.length;
+        const totalAmount = healthData.claims.reduce(
+          (sum: number, claim: any) => sum + claim.amount,
+          0
+        );
+        this.accessibilityService.announcePopupContent(
+          'Recent Claims',
+          `Showing ${claimsCount} recent claims totaling $${totalAmount}. Use Tab to navigate through claims.`
+        );
+
+        console.log('✅ showClaimsPopup called successfully');
+      } else {
+        console.log('❌ No claims data found in health data');
+      }
+    });
+
     // Speak the response
     this.speakResponse(response);
 
-    // Scroll to claims card
+    // Also scroll to claims card for reference
     if (this.isBrowser) {
       setTimeout(() => {
         const claimsElement = document.querySelector('.claims');
         if (claimsElement) {
-          claimsElement.scrollIntoView({ behavior: 'smooth' });
+          claimsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           claimsElement.classList.add('highlighted');
           setTimeout(() => {
             claimsElement.classList.remove('highlighted');
@@ -710,11 +847,12 @@ export class VoiceService {
         }
       }, 500);
     }
+    console.log('=== CLAIMS VIEW TRIGGER COMPLETED ===');
   }
 
   private triggerVitalsView(): void {
-    console.log('Triggering vitals view');
-    const response = 'Displaying your vital signs';
+    console.log('=== VOICE COMMAND: TRIGGERING VITALS VIEW ===');
+    const response = 'Displaying your vital signs information';
 
     this.updateState({
       lastCommand: {
@@ -724,15 +862,57 @@ export class VoiceService {
       },
     });
 
+    // Announce to screen readers
+    this.accessibilityService.announceVoiceCommandResult(
+      'Show my vitals',
+      'Opening vitals popup with current health measurements'
+    );
+
+    // Get vitals data and show vitals popup
+    console.log('🔍 Getting health data for vitals...');
+    this.analyticsService.getHealthData().subscribe((healthData) => {
+      console.log('📊 Health data received:', healthData);
+      if (healthData?.metrics) {
+        console.log('✅ Vitals data found:', healthData.metrics);
+        console.log('📋 Vital signs data structure:', {
+          heartRate: healthData.metrics.heartRate,
+          bloodPressure: healthData.metrics.bloodPressure,
+          bloodSugar: healthData.metrics.bloodSugar,
+          bmi: healthData.metrics.bmi
+        });
+        console.log('🎯 Calling showVitalsPopup...');
+        this.popupService.showVitalsPopup(healthData.metrics);
+
+        // Announce popup content for screen readers
+        const vitalsText = this.accessibilityService.getHealthDataAltText(
+          healthData.metrics,
+          'vitals'
+        );
+        this.accessibilityService.announcePopupContent(
+          'Vital Signs',
+          `${vitalsText}. Use Tab to navigate through vital signs.`
+        );
+
+        console.log('✅ showVitalsPopup called successfully');
+      } else {
+        console.log('❌ No vitals data found in health data');
+        console.log('🔍 Full healthData object:', healthData);
+      }
+    });
+
     // Speak the response
     this.speakResponse(response);
 
-    // Scroll to vitals card
+    // Also scroll to vitals card for reference
     if (this.isBrowser) {
       setTimeout(() => {
         const vitalsElement = document.querySelector('.vitals');
         if (vitalsElement) {
-          vitalsElement.scrollIntoView({ behavior: 'smooth' });
+          vitalsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           vitalsElement.classList.add('highlighted');
           setTimeout(() => {
             vitalsElement.classList.remove('highlighted');
@@ -740,6 +920,7 @@ export class VoiceService {
         }
       }, 500);
     }
+    console.log('=== VITALS VIEW TRIGGER COMPLETED ===');
   }
 
   private triggerHealthPrediction(): void {
@@ -758,7 +939,11 @@ export class VoiceService {
         const recommendationsElement =
           document.querySelector('.recommendations');
         if (recommendationsElement) {
-          recommendationsElement.scrollIntoView({ behavior: 'smooth' });
+          recommendationsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           recommendationsElement.classList.add('highlighted');
           setTimeout(() => {
             recommendationsElement.classList.remove('highlighted');
@@ -769,8 +954,8 @@ export class VoiceService {
   }
 
   private triggerGoalsView(): void {
-    console.log('Triggering goals view');
-    const response = 'Showing your health goals';
+    console.log('=== VOICE COMMAND: TRIGGERING GOALS VIEW ===');
+    const response = 'Displaying your health goals information';
 
     this.updateState({
       lastCommand: {
@@ -780,6 +965,36 @@ export class VoiceService {
       },
     });
 
+    // Announce to screen readers
+    this.accessibilityService.announceVoiceCommandResult(
+      'Show my goals',
+      'Opening goals popup with current health objectives and progress'
+    );
+
+    // Get health goals data and show goals popup
+    console.log('🔍 Getting health data for goals...');
+    this.analyticsService.getHealthData().subscribe((healthData) => {
+      console.log('📊 Health data received:', healthData);
+      if (healthData?.healthGoals) {
+        console.log('✅ Goals data found:', healthData.healthGoals);
+        console.log('🎯 Calling showGoalsPopup...');
+        this.popupService.showGoalsPopup(healthData.healthGoals);
+
+        // Announce popup content for screen readers
+        const totalGoals = healthData.healthGoals.length;
+        this.accessibilityService.announcePopupContent(
+          'Health Goals',
+          `Viewing ${totalGoals} health goal${
+            totalGoals === 1 ? '' : 's'
+          }. Use Tab to navigate through goals.`
+        );
+
+        console.log('✅ showGoalsPopup called successfully');
+      } else {
+        console.log('❌ No goals data found in health data');
+      }
+    });
+
     // Speak the response
     this.speakResponse(response);
 
@@ -787,7 +1002,11 @@ export class VoiceService {
       setTimeout(() => {
         const goalsElement = document.querySelector('.goals-card');
         if (goalsElement) {
-          goalsElement.scrollIntoView({ behavior: 'smooth' });
+          goalsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           goalsElement.classList.add('highlighted');
           setTimeout(() => {
             goalsElement.classList.remove('highlighted');
@@ -795,6 +1014,7 @@ export class VoiceService {
         }
       }, 500);
     }
+    console.log('=== GOALS VIEW TRIGGER COMPLETED ===');
   }
 
   private triggerWellnessView(): void {
@@ -813,7 +1033,11 @@ export class VoiceService {
       setTimeout(() => {
         const wellnessElement = document.querySelector('.wellness-card');
         if (wellnessElement) {
-          wellnessElement.scrollIntoView({ behavior: 'smooth' });
+          wellnessElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           wellnessElement.classList.add('highlighted');
           setTimeout(() => {
             wellnessElement.classList.remove('highlighted');
@@ -824,7 +1048,9 @@ export class VoiceService {
   }
 
   private triggerMedicationView(): void {
-    console.log('Triggering medication tracker view');
+    console.log('=== VOICE COMMAND: TRIGGERING MEDICATION VIEW ===');
+    const response = 'Displaying your medication information';
+
     this.updateState({
       lastCommand: {
         command: 'Medication tracker displayed',
@@ -833,11 +1059,48 @@ export class VoiceService {
       },
     });
 
+    // Announce to screen readers
+    this.accessibilityService.announceVoiceCommandResult(
+      'Show my medications',
+      'Opening medication popup with current prescriptions and schedules'
+    );
+
+    // Get medication data and show medication popup
+    console.log('🔍 Getting health data for medications...');
+    this.analyticsService.getHealthData().subscribe((healthData) => {
+      console.log('📊 Health data received:', healthData);
+      if (healthData?.medications) {
+        console.log('✅ Medication data found:', healthData.medications);
+        console.log('🎯 Calling showMedicationPopup...');
+        this.popupService.showMedicationPopup(healthData.medications);
+
+        // Announce popup content for screen readers
+        const totalMedications = healthData.medications.length;
+        this.accessibilityService.announcePopupContent(
+          'Medications',
+          `Viewing ${totalMedications} medication${
+            totalMedications === 1 ? '' : 's'
+          }. Use Tab to navigate through your prescription list.`
+        );
+
+        console.log('✅ showMedicationPopup called successfully');
+      } else {
+        console.log('❌ No medication data found in health data');
+      }
+    });
+
+    // Speak the response
+    this.speakResponse(response);
+
     if (this.isBrowser) {
       setTimeout(() => {
         const medicationElement = document.querySelector('.medication-card');
         if (medicationElement) {
-          medicationElement.scrollIntoView({ behavior: 'smooth' });
+          medicationElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           medicationElement.classList.add('highlighted');
           setTimeout(() => {
             medicationElement.classList.remove('highlighted');
@@ -845,6 +1108,7 @@ export class VoiceService {
         }
       }, 500);
     }
+    console.log('=== MEDICATION VIEW TRIGGER COMPLETED ===');
   }
 
   private triggerProviderView(): void {
@@ -861,7 +1125,11 @@ export class VoiceService {
       setTimeout(() => {
         const providerElement = document.querySelector('.provider-card');
         if (providerElement) {
-          providerElement.scrollIntoView({ behavior: 'smooth' });
+          providerElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           providerElement.classList.add('highlighted');
           setTimeout(() => {
             providerElement.classList.remove('highlighted');
@@ -872,7 +1140,9 @@ export class VoiceService {
   }
 
   private triggerBenefitsView(): void {
-    console.log('Triggering benefits summary view');
+    console.log('=== VOICE COMMAND: TRIGGERING BENEFITS VIEW ===');
+    const response = 'Displaying your benefits information';
+
     this.updateState({
       lastCommand: {
         command: 'Benefits summary displayed',
@@ -881,11 +1151,45 @@ export class VoiceService {
       },
     });
 
+    // Announce to screen readers
+    this.accessibilityService.announceVoiceCommandResult(
+      'Show my benefits',
+      'Opening benefits popup with coverage details and available services'
+    );
+
+    // Get benefits data and show benefits popup
+    console.log('🔍 Getting health data for benefits...');
+    this.analyticsService.getHealthData().subscribe((healthData) => {
+      console.log('📊 Health data received:', healthData);
+      if (healthData?.benefits) {
+        console.log('✅ Benefits data found:', healthData.benefits);
+        console.log('🎯 Calling showBenefitsPopup...');
+        this.popupService.showBenefitsPopup(healthData.benefits);
+
+        // Announce popup content for screen readers
+        this.accessibilityService.announcePopupContent(
+          'Benefits Summary',
+          `Viewing your insurance benefits and coverage details. Use Tab to navigate through benefit categories.`
+        );
+
+        console.log('✅ showBenefitsPopup called successfully');
+      } else {
+        console.log('❌ No benefits data found in health data');
+      }
+    });
+
+    // Speak the response
+    this.speakResponse(response);
+
     if (this.isBrowser) {
       setTimeout(() => {
         const benefitsElement = document.querySelector('.benefits-card');
         if (benefitsElement) {
-          benefitsElement.scrollIntoView({ behavior: 'smooth' });
+          benefitsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           benefitsElement.classList.add('highlighted');
           setTimeout(() => {
             benefitsElement.classList.remove('highlighted');
@@ -893,6 +1197,7 @@ export class VoiceService {
         }
       }, 500);
     }
+    console.log('=== BENEFITS VIEW TRIGGER COMPLETED ===');
   }
 
   private triggerInsightsView(): void {
@@ -909,7 +1214,11 @@ export class VoiceService {
       setTimeout(() => {
         const insightsElement = document.querySelector('.insights-card');
         if (insightsElement) {
-          insightsElement.scrollIntoView({ behavior: 'smooth' });
+          insightsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           insightsElement.classList.add('highlighted');
           setTimeout(() => {
             insightsElement.classList.remove('highlighted');
@@ -922,7 +1231,7 @@ export class VoiceService {
   private triggerBackToTop(): void {
     console.log('Triggering back to top');
     const response = 'Scrolling to the top of the page';
-    
+
     this.updateState({
       lastCommand: {
         command: 'Scrolled to top of page',
@@ -946,7 +1255,7 @@ export class VoiceService {
   private triggerCareTeamView(): void {
     console.log('Triggering care team view');
     const response = 'Showing your care team and appointment schedule';
-    
+
     this.updateState({
       lastCommand: {
         command: 'Care team information displayed',
@@ -961,7 +1270,11 @@ export class VoiceService {
       setTimeout(() => {
         const careTeamElement = document.querySelector('.provider-card');
         if (careTeamElement) {
-          careTeamElement.scrollIntoView({ behavior: 'smooth' });
+          careTeamElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           careTeamElement.classList.add('highlighted');
           setTimeout(() => {
             careTeamElement.classList.remove('highlighted');
@@ -974,7 +1287,7 @@ export class VoiceService {
   private triggerFitnessView(): void {
     console.log('Triggering fitness goals view');
     const response = 'Displaying your fitness goals and progress';
-    
+
     this.updateState({
       lastCommand: {
         command: 'Fitness goals displayed',
@@ -989,7 +1302,11 @@ export class VoiceService {
       setTimeout(() => {
         const goalsElement = document.querySelector('.goals-card');
         if (goalsElement) {
-          goalsElement.scrollIntoView({ behavior: 'smooth' });
+          goalsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           goalsElement.classList.add('highlighted');
           setTimeout(() => {
             goalsElement.classList.remove('highlighted');
@@ -1002,7 +1319,7 @@ export class VoiceService {
   private triggerTrendsView(): void {
     console.log('Triggering health trends view');
     const response = 'Showing your health trends and analytics';
-    
+
     this.updateState({
       lastCommand: {
         command: 'Health trends displayed',
@@ -1017,7 +1334,11 @@ export class VoiceService {
       setTimeout(() => {
         const insightsElement = document.querySelector('.insights-card');
         if (insightsElement) {
-          insightsElement.scrollIntoView({ behavior: 'smooth' });
+          insightsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           insightsElement.classList.add('highlighted');
           setTimeout(() => {
             insightsElement.classList.remove('highlighted');
@@ -1030,7 +1351,7 @@ export class VoiceService {
   private triggerSleepView(): void {
     console.log('Triggering sleep data view');
     const response = 'Displaying your sleep data and quality metrics';
-    
+
     this.updateState({
       lastCommand: {
         command: 'Sleep data displayed',
@@ -1045,7 +1366,11 @@ export class VoiceService {
       setTimeout(() => {
         const vitalsElement = document.querySelector('.vitals');
         if (vitalsElement) {
-          vitalsElement.scrollIntoView({ behavior: 'smooth' });
+          vitalsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           vitalsElement.classList.add('highlighted');
           setTimeout(() => {
             vitalsElement.classList.remove('highlighted');
@@ -1058,7 +1383,7 @@ export class VoiceService {
   private triggerStressView(): void {
     console.log('Triggering stress levels view');
     const response = 'Showing your stress levels and management programs';
-    
+
     this.updateState({
       lastCommand: {
         command: 'Stress levels displayed',
@@ -1073,7 +1398,11 @@ export class VoiceService {
       setTimeout(() => {
         const wellnessElement = document.querySelector('.wellness-card');
         if (wellnessElement) {
-          wellnessElement.scrollIntoView({ behavior: 'smooth' });
+          wellnessElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+          });
           wellnessElement.classList.add('highlighted');
           setTimeout(() => {
             wellnessElement.classList.remove('highlighted');
